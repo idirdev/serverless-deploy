@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.serverless/
+.env
+.env.local
+*.js.map
+*.d.ts
+!src/**/*.d.ts
+coverage/
+.cache/
+*.zip
