@@ -1,3 +1,5 @@
+> **Archived** — Kept for reference. Not part of the current portfolio.
+
 # serverless-deploy
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue.svg)](https://www.typescriptlang.org/)
