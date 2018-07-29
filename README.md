@@ -220,3 +220,21 @@ const event = createCronEvent('rate(1 hour)', { reportType: 'daily' });
 ## License
 
 MIT
+
+---
+
+## 🇫🇷 Documentation en français
+
+### Description
+**serverless-deploy** est un outil TypeScript pour déployer des fonctions serverless sur différents fournisseurs cloud. Il automatise le packaging, la configuration et le déploiement, avec support de plusieurs environnements (dev, staging, production).
+
+### Installation
+```bash
+npm install
+npm run build
+```
+
+### Utilisation
+```bash
+npm run deploy -- --env production
+```
