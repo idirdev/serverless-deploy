@@ -52,3 +52,68 @@ describe('Packager', () => {
     });
   });
 });
+
+import { LogViewer } from '../src/Logger';
+
+describe('ConfigParser - additional tests', () => {
+  const parser = new ConfigParser();
+
+  it('interpolates multiple vars in sequence', () => {
+    const ctx = { a: 'foo', b: 'bar', c: 'baz' };
+    expect(parser.interpolate('${a}-${b}-${c}', ctx)).toBe('foo-bar-baz');
+  });
+
+  it('handles deeply nested interpolation', () => {
+    const ctx = { provider: { settings: { env: 'staging' } } };
+    expect(parser.interpolate('${provider.settings.env}', ctx)).toBe('staging');
+  });
+
+  it('handles empty string interpolation', () => {
+    expect(parser.interpolate('', {})).toBe('');
+  });
+
+  it('leaves multiple missing vars intact', () => {
+    expect(parser.interpolate('${a} and ${b}', {})).toBe('${a} and ${b}');
+  });
+
+  it('replaces var at start of string', () => {
+    expect(parser.interpolate('${env}-server', { env: 'prod' })).toBe('prod-server');
+  });
+
+  it('replaces var at end of string', () => {
+    expect(parser.interpolate('prefix-${env}', { env: 'dev' })).toBe('prefix-dev');
+  });
+
+  it('handles number values as strings', () => {
+    const ctx = { port: 3000 };
+    expect(parser.interpolate('port-${port}', ctx as any)).toBe('port-3000');
+  });
+});
+
+describe('Packager - additional tests', () => {
+  const packager = new Packager();
+
+  it('formats 0 bytes', () => {
+    expect(packager.formatSize(0)).toBe('0 B');
+  });
+
+  it('formats 1023 bytes as B', () => {
+    expect(packager.formatSize(1023)).toBe('1023 B');
+  });
+
+  it('formats exactly 1 KB', () => {
+    expect(packager.formatSize(1024)).toBe('1.0 KB');
+  });
+
+  it('formats exactly 1 MB', () => {
+    expect(packager.formatSize(1024 * 1024)).toBe('1.0 MB');
+  });
+
+  it('formats 10 MB', () => {
+    expect(packager.formatSize(10 * 1024 * 1024)).toBe('10.0 MB');
+  });
+
+  it('formats 512 KB', () => {
+    expect(packager.formatSize(512 * 1024)).toBe('512.0 KB');
+  });
+});
